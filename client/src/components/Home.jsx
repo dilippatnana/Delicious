@@ -65,9 +65,8 @@ const Home = () => {
                 <p className="text-[12px] text-center  md:text-base text-lighttextGray font-semibold  capitalize">
                   {data.product_category}
                 </p>
-
                 <p className="text-sm  font-semibold text-headingColor">
-                  <span className="text-xs text-red-600">$</span>{" "}
+                  <span className="text-xs text-red-600">₹</span>{" "}
                   {data.product_price}
                 </p>
               </motion.div>
