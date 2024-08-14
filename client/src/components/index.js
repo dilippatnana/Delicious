@@ -6,6 +6,7 @@ export {default as Home} from './Home';
 export {default as HomeSLider} from './HomeSLider';
 export {default as Slider} from './Slider';
 export {default as SliderCard} from './SliderCard';
+export {default as FilterSection} from './FilterSection';
 
 export {default as DBRightSection} from './DBRightSection';
 export {default as DBLeftSection} from './DBLeftSection';
