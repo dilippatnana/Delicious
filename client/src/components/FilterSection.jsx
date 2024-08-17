@@ -19,7 +19,7 @@ const FilterSection = () => {
         </div>
       </div>
 
-      <div className="w-full overflow-x-scroll pt-6 flex items-center justify-center gap-6 py-8">
+      <div className="w-full overflow-x-scroll pt-6 flex items-center justify-center gap-6 py-8 overflow-y-scroll no-scrollbar">
         {statuses &&
           statuses.map((data, i) => (
             <FilterCard
@@ -61,7 +61,7 @@ export const FilterCard = ({ data, index, category, setCategory }) => {
           } group-hover:text-red-500`}
         />
       </div>
-        <p className={` text-xl font-semibold ${category == data.category ? "text-primary" : "text-red-500"} group-hover:text-primary `} >{data.title}</p>
+        <p className={` text-xl font-semibold ${category === data.category ? "text-primary" : "text-red-500"} group-hover:text-primary `} >{data.title}</p>
     </motion.div>
   );
 };
