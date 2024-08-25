@@ -7,6 +7,7 @@ export {default as HomeSLider} from './HomeSLider';
 export {default as Slider} from './Slider';
 export {default as SliderCard} from './SliderCard';
 export {default as FilterSection} from './FilterSection';
+export {default as Cart} from './Cart';
 
 export {default as DBRightSection} from './DBRightSection';
 export {default as DBLeftSection} from './DBLeftSection';
@@ -18,6 +19,8 @@ export { default as DBItems } from "./DBItems";
 export { default as DBNewItem } from "./DBNewItem";
 export { default as DBUsers } from "./DBUsers";
 
-export {default as DataTable} from './DataTable'
+export {default as DataTable} from './DataTable';
 
-export {default as Spinner} from './Spinner'
+export {default as Spinner} from './Spinner';
+
+export {default as CheckOutSuccess} from './CheckOutSuccess';

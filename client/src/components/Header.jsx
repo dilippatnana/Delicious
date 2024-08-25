@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import { app } from "../config/firebase.config";
 import { setUserNull } from "../context/actions/userActions";
+import { setCartOn } from "../context/actions/displayCartAction";
 
 const Header = () => {
   const user = useSelector((state) => state.user);
@@ -76,7 +77,11 @@ const Header = () => {
             About Us
           </NavLink>
         </ul>
-        <motion.div {...buttonClick} className="relative cursor-pointer">
+        <motion.div
+          {...buttonClick}
+          onClick={() => dispatch(setCartOn())}
+          className="relative cursor-pointer"
+        >
           <MdShoppingCart className="text-3xl text-textColor" />
           {cart?.length > 0 && (
             <div className="w-6 h6 rounded-full bg-red-500 flex items-center justify-center absolute -top-4 -right-1">
