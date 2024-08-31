@@ -19,6 +19,7 @@
     "express": "^4.18.2",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.0",
+    "node-url-shortener": "^2.0.3",
     "stripe": "^11.18.0"
   },
   "devDependencies": {

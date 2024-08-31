@@ -32,7 +32,7 @@ router.get("/all", async (req, res) => {
       let response = [];
       await query.get().then((querysnap) => {
         let docs = querysnap.docs;
-        docs.map((doc) => {
+        docs.map((doc) => { 
           response.push({ ...doc.data() });
         });
         return response;
@@ -182,13 +182,13 @@ router.get("/getCartItems/:user_id", async (req, res) => {
 });
 
 router.post("/create-checkout-session", async (req, res) => {
-  const customer = await stripe.customers.create({
-    metadata: {
-      user_id: req.body.data.user.user_id,
-      cart: JSON.stringify(req.body.data.cart),
-      total: req.body.data.total,
-    },
-  });
+  // const customer = await stripe.customers.create({
+  //   metadata: {
+  //     user_id: req.body.data.user.user_id,
+  //     cart: JSON.stringify(req.body.data.cart),
+  //     total: req.body.data.total,
+  //   },
+  // });
 
   const line_items = req.body.data.cart.map((item) => {
     return {
@@ -206,6 +206,8 @@ router.post("/create-checkout-session", async (req, res) => {
       quantity: item.quantity,
     };
   });
+
+  console.log(line_items)
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
@@ -228,7 +230,7 @@ router.post("/create-checkout-session", async (req, res) => {
     },
 
     line_items,
-    customer: customer.id,
+    // customer: customer.id,
     mode: "payment",
     success_url: `${process.env.CLIENT_URL}/checkout-success`,
     cancel_url: `${process.env.CLIENT_URL}/`,
@@ -237,8 +239,7 @@ router.post("/create-checkout-session", async (req, res) => {
   res.send({ url: session.url });
 });
 
-let endpointSecret;
-// endpointSecret = process.env.WEBHOOK_SECRET;
+const endpointSecret = process.env.WEBHOOK_SECRET;
 
 router.post(
   "/webhook",
@@ -263,7 +264,7 @@ router.post(
       data = req.body.data.object;
       eventType = req.body.type;
     }
-
+ 
     // Handle the event
     if (eventType === "checkout.session.completed") {
       stripe.customers.retrieve(data.customer).then((customer) => {

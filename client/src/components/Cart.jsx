@@ -36,12 +36,13 @@ const Cart = () => {
       total: total,
     };
     axios
-      .post(`${baseURL}/api/products/create-checkout-session`, { data })
+      .post(`${baseURL}/api/products/create-checkout-session`,  {data} )
       .then((res) => {
         if (res.data.url) {
+          console.log(res.data);
           window.location.href = res.data.url;
         }
-      })
+      })  
       .catch((err) => console.log(err));
   };
 
