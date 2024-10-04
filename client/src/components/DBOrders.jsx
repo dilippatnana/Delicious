@@ -1,9 +1,36 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllOrder } from "../api";
+import { setOrders } from "../context/actions/ordersAction";
+import { OrderData } from ".";
 
 const DBOrders = () => {
-  return (
-    <div>DBOrders</div>
-  )
-}
+  const orders = useSelector((state) => state.orders);
+  const dispatch = useDispatch();
 
-export default DBOrders
+  useEffect(() => {
+    if (!orders) {
+      getAllOrder().then((data) => {
+        dispatch(setOrders(data));
+      });
+    }
+  }, []);
+
+  return (
+    <div className="flex items-center justify-center flex-col pt-6 w-full gap-4">
+      {orders ? (
+        <>
+          {orders.map((item, i) => {
+            <OrderData key={i} index={i} data={item} admin={true} />;
+          })}
+        </>
+      ) : (
+        <>
+          <h1 className="text-[72px] text-headingColor font-bold">No data</h1>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default DBOrders;

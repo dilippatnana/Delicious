@@ -182,13 +182,16 @@ router.get("/getCartItems/:user_id", async (req, res) => {
 });
 
 router.post("/create-checkout-session", async (req, res) => {
-  // const customer = await stripe.customers.create({
-  //   metadata: {
-  //     user_id: req.body.data.user.user_id,
-  //     cart: JSON.stringify(req.body.data.cart),
-  //     total: req.body.data.total,
-  //   },
-  // });
+  const customer = await stripe.customers.create({
+    metadata: {
+      user_id: req.body.data.user.user_id,
+      cart: JSON.stringify(req.body.data.cart),
+      total: req.body.data.total,
+    },
+  });
+  
+  // console.log("Printing the customer data ---------------------");
+  // console.log(customer);
 
   const line_items = req.body.data.cart.map((item) => {
     return {
@@ -208,7 +211,7 @@ router.post("/create-checkout-session", async (req, res) => {
   });
 
   console.log(line_items)
-
+  console.log("---------------------inside the stirpe checkout session---------------");
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     shipping_address_collection: { allowed_countries: ["IN"] },
@@ -230,23 +233,26 @@ router.post("/create-checkout-session", async (req, res) => {
     },
 
     line_items,
-    // customer: customer.id,
+    customer: customer.id,
     mode: "payment",
     success_url: `${process.env.CLIENT_URL}/checkout-success`,
     cancel_url: `${process.env.CLIENT_URL}/`,
   });
 
+
+  
   res.send({ url: session.url });
+  console.log("---------------------ouside the stirpe checkout session---------------");
 });
 
-const endpointSecret = process.env.WEBHOOK_SECRET;
+let endpointSecret = process.env.WEBHOOK_SECRET;
 
 router.post(
   "/webhook",
   express.raw({ type: "application/json" }),
   (req, res) => {
     const sig = req.headers["stripe-signature"];
-
+    console.log("-----------------inside the web hooks-------------")
     let eventType;
     let data;
 
@@ -268,8 +274,8 @@ router.post(
     // Handle the event
     if (eventType === "checkout.session.completed") {
       stripe.customers.retrieve(data.customer).then((customer) => {
-        // console.log("Customer details", customer);
-        // console.log("Data", data);
+        console.log("Customer details", customer);
+        console.log("Data", data);
         createOrder(customer, data, res);
       });
     }
